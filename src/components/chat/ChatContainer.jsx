@@ -8,8 +8,8 @@ import { checkOnlineStatus } from "../../utils/chat.js";
 import { FilesPreview } from "./preview/files";
 
 const ChatContainer = ({ onlineUsers, typing, callUser }) => {
-  const { activeConversation, files } = useSelector((state) => state.chat);
-  const { user } = useSelector((state) => state.user);
+  const { activeConversation, files } = useSelector(state => state.chat);
+  const { user } = useSelector(state => state.user);
   const { token } = user;
   const dispatch = useDispatch();
   const values = {

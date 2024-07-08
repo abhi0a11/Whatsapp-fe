@@ -13,8 +13,9 @@ import {
 } from "../../../utils/chat";
 
 const ChatHeader = ({ online, callUser }) => {
-  const { activeConversation } = useSelector((state) => state.chat);
-  const { user } = useSelector((state) => state.user);
+  // online = true;
+  const { activeConversation } = useSelector(state => state.chat);
+  const { user } = useSelector(state => state.user);
   // const { name, picture } = activeConversation;
 
   return (
