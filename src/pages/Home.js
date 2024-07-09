@@ -24,8 +24,8 @@ const callData = {
 function Home({ socket }) {
   //redux hooks
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
-  const { activeConversation } = useSelector((state) => state.chat);
+  const { user } = useSelector(state => state.user);
+  const { activeConversation } = useSelector(state => state.chat);
   //state variables
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [typing, setTyping] = useState(false);
@@ -43,7 +43,7 @@ function Home({ socket }) {
   useEffect(() => {
     socket.emit("join", user._id);
     //get online users
-    socket.on("get-online-users", (users) => {
+    socket.on("get-online-users", users => {
       setOnlineUsers(users);
     });
   }, [user]);
@@ -51,10 +51,10 @@ function Home({ socket }) {
   //call
   useEffect(() => {
     setupMedia();
-    socket.on("setup socket", (id) => {
+    socket.on("setup socket", id => {
       setCall({ ...call, socketId: id });
     });
-    socket.on("call user", (data) => {
+    socket.on("call user", data => {
       setCall({
         ...call,
         socketId: data.from,
@@ -86,7 +86,7 @@ function Home({ socket }) {
       trickle: false,
       stream: stream,
     });
-    peer.on("signal", (data) => {
+    peer.on("signal", data => {
       socket.emit("call user", {
         userToCall: getConversationId(user, activeConversation.users),
         signal: data,
@@ -95,10 +95,10 @@ function Home({ socket }) {
         picture: user.picture,
       });
     });
-    peer.on("stream", (stream) => {
+    peer.on("stream", stream => {
       userVideo.current.srcObject = stream;
     });
-    socket.on("call accepted", (signal) => {
+    socket.on("call accepted", signal => {
       setCallAccepted(true);
       peer.signal(signal);
     });
@@ -113,10 +113,10 @@ function Home({ socket }) {
       trickle: false,
       stream: stream,
     });
-    peer.on("signal", (data) => {
+    peer.on("signal", data => {
       socket.emit("answer call", { signal: data, to: call.socketId });
     });
-    peer.on("stream", (stream) => {
+    peer.on("stream", stream => {
       userVideo.current.srcObject = stream;
     });
     peer.signal(call.signal);
@@ -125,7 +125,7 @@ function Home({ socket }) {
   //--end call  function
   const endCall = () => {
     setShow(false);
-    setCall((prevCall) => ({
+    setCall(prevCall => ({
       ...prevCall,
       callEnded: true,
       receiveingCall: false,
@@ -138,15 +138,16 @@ function Home({ socket }) {
   const setupMedia = () => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
+      .then(stream => {
         setStream(stream);
       });
   };
 
   const enableMedia = () => {
-    myVideo.current.srcObject = stream;
+    if (myVideo.current) myVideo.current.srcObject = stream;
     setShow(true);
   };
+
   //get Conversations
   useEffect(() => {
     if (user?.token) {
@@ -155,11 +156,11 @@ function Home({ socket }) {
   }, [user]);
   useEffect(() => {
     //lsitening to receiving a message
-    socket.on("receive message", (message) => {
+    socket.on("receive message", message => {
       dispatch(updateMessagesAndConversations(message));
     });
     //listening when a user is typing
-    socket.on("typing", (conversation) => setTyping(conversation));
+    socket.on("typing", conversation => setTyping(conversation));
     socket.on("stop typing", () => setTyping(false));
   }, []);
   return (
@@ -202,9 +203,9 @@ function Home({ socket }) {
   );
 }
 
-const HomeWithSocket = (props) => (
+const HomeWithSocket = props => (
   <SocketContext.Consumer>
-    {(socket) => <Home {...props} socket={socket} />}
+    {socket => <Home {...props} socket={socket} />}
   </SocketContext.Consumer>
 );
 export default HomeWithSocket;
