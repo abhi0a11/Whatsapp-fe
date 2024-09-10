@@ -10,17 +10,21 @@ import { loginUser } from "../../features/userSlice.js";
 const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { status, error } = useSelector((state) => state.user);
+  const { status, error } = useSelector(state => state.user);
   const {
     register,
     handleSubmit,
     // watch,
     formState: { errors },
   } = useForm({
+    defaultValues: {
+      email: "abhishekkumawat.ak21@gmail.com",
+      password: "Abhishek@abhi0112",
+    },
     resolver: yupResolver(signInSchema),
   });
 
-  const onSubmit = async (values) => {
+  const onSubmit = async values => {
     let res = await dispatch(loginUser({ ...values }));
     if (res.payload.user) {
       navigate("/");
