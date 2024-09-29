@@ -49,10 +49,10 @@ export default function Call({
                 <video
                   ref={userVideo}
                   playsInline
-                  muted
+                  // muted
                   autoPlay
                   className={toggle ? "SmallVideoCall" : "largeVideoCall"}
-                  onClick={() => setToggle((prev) => !prev)}
+                  onClick={() => setToggle(prev => !prev)}
                 ></video>
               </div>
             ) : null}
@@ -62,12 +62,12 @@ export default function Call({
                 <video
                   ref={myVideo}
                   playsInline
-                  muted
+                  // muted
                   autoPlay
                   className={`${toggle ? "largeVideoCall" : "SmallVideoCall"} ${
                     showActions ? "moveVideoCall" : ""
                   }`}
-                  onClick={() => setToggle((prev) => !prev)}
+                  onClick={() => setToggle(prev => !prev)}
                 ></video>
               </div>
             ) : null}

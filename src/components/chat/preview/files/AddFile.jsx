@@ -8,9 +8,9 @@ const AddFile = () => {
   const dispatch = useDispatch();
   const inputRef = useRef(null);
 
-  const filestHandler = (e) => {
+  const filestHandler = e => {
     let files = Array.from(e.target.files);
-    files.forEach((file) => {
+    files.forEach(file => {
       if (
         file.type !== "application/pdf" &&
         file.type !== "text/plain" &&
@@ -35,15 +35,15 @@ const AddFile = () => {
         file.type !== "video/mpeg" &&
         file.type !== "image/webm"
       ) {
-        files = files.filter((item) => item.name !== file.name);
+        files = files.filter(item => item.name !== file.name);
         return;
-      } else if (file.size > 1024 * 1024 * 10) {
-        files = files.filter((item) => item.name !== file.name);
+      } else if (file.size > 1024 * 1024 * 100) {
+        files = files.filter(item => item.name !== file.name);
         return;
       } else {
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = (e) => {
+        reader.onload = e => {
           dispatch(
             addFiles({
               file: file,
