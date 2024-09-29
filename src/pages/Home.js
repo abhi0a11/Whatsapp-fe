@@ -125,12 +125,12 @@ function Home({ socket }) {
   //--end call  function
   const endCall = () => {
     setShow(false);
-    // setCall(prevCall => ({
-    //   ...prevCall,
-    //   callEnded: true,
-    //   receiveingCall: false,
-    // }));
-    setCall({ ...call, callEnded: true, receiveingCall: false });
+    setCall(prevCall => ({
+      ...prevCall,
+      callEnded: true,
+      receiveingCall: false,
+    }));
+    // setCall({ ...call, callEnded: true, receiveingCall: false });
     myVideo.current.srcObject = null;
     socket.emit("end call", call.socketId);
     connectionRef?.current?.destroy();
@@ -145,8 +145,8 @@ function Home({ socket }) {
   };
 
   const enableMedia = () => {
-    // if (myVideo.current) myVideo.current.srcObject = stream;
-    myVideo.current.srcObject = stream;
+    if (myVideo.current) myVideo.current.srcObject = stream;
+    // myVideo.current.srcObject = stream;
     setShow(true);
   };
 
