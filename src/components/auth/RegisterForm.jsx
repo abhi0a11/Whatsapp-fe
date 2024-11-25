@@ -16,7 +16,7 @@ const cloud_name = process.env.REACT_APP_CLOUD_NAME;
 const Registerform = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { status, error } = useSelector((state) => state.user);
+  const { status, error } = useSelector(state => state.user);
   const [picture, setPicture] = useState();
   const [readablePicture, setReadablePicture] = useState();
   const {
@@ -28,14 +28,14 @@ const Registerform = () => {
     resolver: yupResolver(signUpSchema),
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async data => {
     let res;
     dispatch(changeStatus("loading"));
     if (picture) {
       //upload picture to cloudinary
       //bug: image uploading to cloudinary even though user not registered.
       //case: when register using same email id.
-      await uploadImage().then(async (response) => {
+      await uploadImage().then(async response => {
         res = await dispatch(
           registerUser({ ...data, picture: response.secure_url })
         );
@@ -55,7 +55,6 @@ const Registerform = () => {
       `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
       formData
     );
-    console.log(data);
     return data;
   };
   return (
